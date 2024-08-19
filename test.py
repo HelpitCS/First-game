@@ -1,49 +1,42 @@
 import pygame
+from board import screen
+#from board import Board
+def draw_row():
+    start_x = 300
+    y = 10
+    width = 70
+    height = 70
 
-pygame.init()
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
-clock = pygame.time.Clock()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    for i in range(4):
+        x = start_x
+        y += height
+        for i in range(4):
+            # print white square
+            pygame.draw.rect(screen, (235,236,208), (x, y, width, height))
+            x += width
+            # print black square next to it
+            pygame.draw.rect(screen, (119, 149, 86), (x, y, width, height))
+            x += width
 
-player = pygame.Rect((300, 250, 50, 50))
+        x = start_x
+        y += height
+        # print other row
+        for i in range(4):
+            pygame.draw.rect(screen, (119, 149, 86), (x, y, width, height))
+            x += width
+            pygame.draw.rect(screen, (235,236,208), (x, y, width, height))
+            x += width
+        
 
 running = True
 while running:
-    clock.tick(30)
-    screen.fill((0,0,0))
-    pygame.draw.rect(screen, (255,0,0), player)
-    # look at mouse buttons
-    pos_mouse = pygame.mouse.get_pos()
-    if player.collidepoint(pos_mouse):
-        print("Mouse is inside the player rectangle!")
-
-    if pygame.mouse.get_pressed()[0]:
-        print("Left mouse clicked")
-    if pygame.mouse.get_pressed()[2]:
-        print("Right mouse clicked")
-
-    #event handler
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    
-    
+            if event.type == pygame.QUIT:
+                running = False
 
-    key = pygame.key.get_pressed()
-    if key[pygame.K_a]:
-        player.move_ip(-1, 0)
-    elif key[pygame.K_d]:
-        player.move_ip(1, 0)
-    elif key[pygame.K_w]:
-        player.move_ip(0, -1)
-    elif key[pygame.K_s]:
-        player.move_ip(0, 1)
+    screen.fill((255,0,255))
+    draw_row()
 
-    
-    
-
-    pygame.display.update()
-
+    pygame.display.flip()
 
 pygame.quit()
